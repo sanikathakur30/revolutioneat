@@ -4,7 +4,7 @@ const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const jwtSecret=
+const jwtSecret= "MynameisSanikaThakurWebsiteDev$#"
 router.post(
   "/createuser",
   [
@@ -64,7 +64,7 @@ router.post(
           id:userData.id
         }
       }
-      const authToken = jwt.sign(data,)
+      const authToken = jwt.sign(data,jwtSecret)
       return res.json({ success: true,authToken });
     } catch (error) {
       console.log(error);
