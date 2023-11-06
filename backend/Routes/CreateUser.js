@@ -35,7 +35,7 @@ router.post(
 );
 
 router.post(
-  "/loginuser",
+  "/login",
   [
     body("email").isEmail(),
     body("password", "Incorrect Password").isLength({ min: 5 }),

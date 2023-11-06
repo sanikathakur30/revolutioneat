@@ -1,5 +1,6 @@
 import React from 'react'
 import { useCart, useDispatchCart } from '../components/ContextReducer';
+import trash from "../screens/trash.png"
 export default function Cart() {
   let data = useCart();
   let dispatch = useDispatchCart();
@@ -10,7 +11,25 @@ export default function Cart() {
       </div>
     )
   }
-  // const handleRemove = (index)=>{
+  const handleCheckOut = async()=>{
+    let userEmail = localStorage.getItem("userEmail");
+    let response = await fetch("http://localhost:5000/api/orderData",{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        order_data:data,
+        email:userEmail,
+        order_date:new Date().toDateString()
+      })
+    });
+    console.log("Order Response",response)
+    if(response.status===200){
+      dispatch({type:"DROP"})
+    }
+  }
+  // const handleRemove = async(index)=>{
   //   console.log(index)
   //   dispatch({type:"REMOVE",index:index})
   // }
@@ -20,7 +39,7 @@ export default function Cart() {
     <div>
       <div className='container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md' >
         <table className='table table-hover '>
-          <thead className=' text-success fs-4'>
+          <thead className=' fs-4' style={{color:'#4CBB17'}}>
             <tr>
               <th scope='col' >#</th>
               <th scope='col' >Name</th>
@@ -39,14 +58,14 @@ export default function Cart() {
                 <td>{food.size}</td>
                 <td>{food.price}</td>
                 <td >
-                    {/* <button type="button" className="btn p-0"><Delete onClick={() => { dispatch({ type: "REMOVE", index: index }) }} /></button> */}
+                    <button type="button" className="btn p-0"><img src={trash} alt="delete" onClick={() => { dispatch({ type: "REMOVE", index: index }) }} /></button>
                      </td></tr>
             ))}
           </tbody>
         </table>
         <div><h1 className='fs-2'>Total Price: {totalPrice}/-</h1></div>
         <div>
-          <button className='btn bg-success mt-5 '> Check Out </button>
+          <button className='btn mt-5 ' onClick={handleCheckOut} style={{background:'#4CBB17'}}> Check Out </button>
         </div>
       </div>
 
