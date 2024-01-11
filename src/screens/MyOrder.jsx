@@ -24,8 +24,10 @@ export default function MyOrder() {
 
     // await res.map((data)=>{
     //    console.log(data)
-    // })
+    // 
+    })
   };
+
 
   useEffect(() => {
     fetchMyOrder();
